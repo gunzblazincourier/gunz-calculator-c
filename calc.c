@@ -114,7 +114,9 @@ int main() {
     Stack_int solving;
     initialize_int(&solving);
 
-    char expression[] = "3+4*7";
+    char expression[MAX_SIZE];
+    printf("Expression: ");
+    scanf("%s", expression);
     for (int i = 0; i < 5; i++) {
         char c = expression[i];
         if (isalnum(c)) {
