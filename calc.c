@@ -117,7 +117,9 @@ int main() {
     char expression[MAX_SIZE];
     printf("Expression: ");
     scanf("%s", expression);
-    for (int i = 0; i < 5; i++) {
+
+    int len = strlen(expression);
+    for (int i = 0; i < len; i++) {
         char c = expression[i];
         if (isalnum(c)) {
             int num = c - '0';
