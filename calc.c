@@ -46,7 +46,7 @@ void push(Stack_char *stack, char value) {
         return;
     }
     stack->arr[++stack->top] = value;
-    // printf("Pushed %c onto the stack\n", value);
+    printf("Pushed %c onto the stack\n", value);
 }
 
 void push_int(Stack_int *stack, int value) {
@@ -55,7 +55,7 @@ void push_int(Stack_int *stack, int value) {
         return;
     }
     stack->arr[++stack->top] = value;
-    // printf("Pushed %d onto the stack\n", value);
+    printf("Pushed %d onto the stack..\n", value);
 }
 
 char pop(Stack_char *stack) {
@@ -65,7 +65,7 @@ char pop(Stack_char *stack) {
     }
     char popped = stack->arr[stack->top];
     stack->top--;
-    // printf("Popped %c from the stack\n", popped);
+    printf("Popped %c from the stack\n", popped);
     return popped;
 }
 
@@ -76,7 +76,7 @@ int pop_int(Stack_int *stack) {
     }
     int popped = stack->arr[stack->top];
     stack->top--;
-    // printf("Popped %d from the stack\n", popped);
+    printf("Popped %d from the stack..\n", popped);
     return popped;
 }
 
@@ -132,15 +132,53 @@ int main() {
         // printf("%c\n", c);
         if (isalnum(c)) {
             addChar(num_string, c);
-        } else {
-            int num = atoi(num_string);
+        } else if (c == '(') {
+            // int num = atoi(num_string);
             // printf("%d\n", num);
-            push_int(&solving, num);
+            // push_int(&solving, num);
+            // memset(num_string,0,strlen(num_string));
+            push(&op, c);
+        } else if (c == ')') {
+            // printf("char1,%s\n", num_string);
+            if (num_string[0] != '\0') {
+                int num = atoi(num_string);
+                // printf("%d\n", num);
+                push_int(&solving, num);
+            }
+            memset(num_string,0,strlen(num_string));
+
+            while (!isEmpty(&op) && peek(&op) != '(') {
+                // push(&solving, peek(&op));
+                // pop(&op);
+                printf("peek1,%d\n", peek_int(&solving));
+                int val1 = pop_int(&solving);
+                int val2 = pop_int(&solving);
+                printf("%d%c%d\n", val2, peek(&op), val1);
+
+                if (peek(&op) == '+') {
+                    push_int(&solving, val2 + val1);
+                } else if (peek(&op) == '-') {
+                    push_int(&solving, val2 - val1);
+                } else if (peek(&op) == '*') {
+                    push_int(&solving, val2 * val1);
+                } else if (peek(&op) == '/') {
+                    push_int(&solving, val2 / val1);
+                }
+                pop(&op);
+            }
+            pop(&op);
+        } else {
+            // printf("char2,%s\n", num_string);
+            if (num_string[0] != '\0') {
+                int num = atoi(num_string);
+                // printf("%d\n", num);
+                push_int(&solving, num);
+            }
             memset(num_string,0,strlen(num_string));
             while (!isEmpty(&op) && prec(c) <= prec(peek(&op))) {
                 // push(&solving, peek(&op));
                 // pop(&op);
-                // printf("peek%d\n", peek_int(&solving));
+                printf("peek2,%d\n", peek_int(&solving));
                 int val1 = pop_int(&solving);
                 int val2 = pop_int(&solving);
                 printf("%d%c%d\n", val2, peek(&op), val1);
@@ -160,14 +198,17 @@ int main() {
         }
     }
 
-    int num = atoi(num_string);
-    // printf("%d\n", num);
-    push_int(&solving, num);
+    // printf("char3,%s\n", num_string);
+    if (num_string[0] != '\0') {
+        int num = atoi(num_string);
+        // printf("%d\n", num);
+        push_int(&solving, num);
+    }
     memset(num_string,0,strlen(num_string));
     while (!isEmpty(&op)) {
         // push(&solving, peek(&op));
         // pop(&op);
-        // printf("peek%d\n", peek_int(&solving));
+        printf("peek3,%d\n", peek_int(&solving));
         int val1 = pop_int(&solving);
         int val2 = pop_int(&solving);
         printf("%d%c%d\n", val2, peek(&op), val1);
