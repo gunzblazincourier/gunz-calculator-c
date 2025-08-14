@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 #define MAX_SIZE 100
 
@@ -163,6 +164,8 @@ int main() {
                     push_int(&solving, val2 * val1);
                 } else if (peek(&op) == '/') {
                     push_int(&solving, val2 / val1);
+                } else if (peek(&op) == '^') {
+                push_int(&solving, pow(val2, val1));
                 }
                 pop(&op);
             }
@@ -191,6 +194,8 @@ int main() {
                     push_int(&solving, val2 * val1);
                 } else if (peek(&op) == '/') {
                     push_int(&solving, val2 / val1);
+                } else if (peek(&op) == '^') {
+                    push_int(&solving, pow(val2, val1));
                 }
                 pop(&op);
             }
@@ -221,6 +226,8 @@ int main() {
             push_int(&solving, val2 * val1);
         } else if (peek(&op) == '/') {
             push_int(&solving, val2 / val1);
+        } else if (peek(&op) == '^') {
+                push_int(&solving, pow(val2, val1));
         }
         pop(&op);
     }
@@ -230,18 +237,5 @@ int main() {
         pop_int(&solving);
     }
 
-    // char num_string[10];
-    // addChar(num_string, '2');
-    // printf("%s\n", num_string);
-    // addChar(num_string, '3');
-    // printf("%s\n", num_string);
-    // memset(num_string,0,strlen(num_string));
-    // addChar(num_string, '4');
-    // printf("%s\n", num_string);
-    // addChar(num_string, '2');
-    // printf("%s\n", num_string);
-
-    // push_int(&solving, atoi("260"));
-    // printf("%d", peek_int(&solving));
     return 0;
 }
