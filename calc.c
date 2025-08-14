@@ -125,6 +125,33 @@ void addChar(char *s, char c) {
     *s = '\0';
 }
 
+// Push converted numeric string in integer stack and empty string
+void push_int_string(Stack_int *stack, char *s) {
+    if (s[0] != '\0') {
+        push_int(stack, atoi(s));
+    }
+    memset(s, 0, strlen(s));
+}
+
+// Stores operands, detects operator, performs operation and pops that operator
+void perform_correct_operation(Stack_int *stack, Stack_char *stack_ch) {
+    int val1 = pop_int(stack);
+    int val2 = pop_int(stack);
+
+    if (peek(stack_ch) == '+') {
+        push_int(stack, val2 + val1);
+    } else if (peek(stack_ch) == '-') {
+        push_int(stack, val2 - val1);
+    } else if (peek(stack_ch) == '*') {
+        push_int(stack, val2 * val1);
+    } else if (peek(stack_ch) == '/') {
+        push_int(stack, val2 / val1);
+    } else if (peek(stack_ch) == '^') {
+    push_int(stack, pow(val2, val1));
+    }
+    pop(stack_ch);
+}
+
 
 int main() {
     // Operator stack
@@ -158,110 +185,29 @@ int main() {
         
         // For closing bracket
         } else if (c == ')') {
-            // Convert string to integer and push to solving stack
-            if (num_string[0] != '\0') {
-                int num = atoi(num_string);
-                push_int(&solving, num);
-            }
-            // Empties string
-            memset(num_string,0,strlen(num_string));
-
+            push_int_string(&solving, num_string);
             // Runs until operator stack is empty or opening bracket is encountered
             while (!isEmpty(&op) && peek(&op) != '(') {
-                printf("peek1,%d\n", peek_int(&solving));
-
-                // Stores and pops operands
-                int val1 = pop_int(&solving);
-                int val2 = pop_int(&solving);
-                printf("%d%c%d\n", val2, peek(&op), val1);
-
-                // Performs operation based on detected operator and pushes answer to solving stack
-                if (peek(&op) == '+') {
-                    push_int(&solving, val2 + val1);
-                } else if (peek(&op) == '-') {
-                    push_int(&solving, val2 - val1);
-                } else if (peek(&op) == '*') {
-                    push_int(&solving, val2 * val1);
-                } else if (peek(&op) == '/') {
-                    push_int(&solving, val2 / val1);
-                } else if (peek(&op) == '^') {
-                push_int(&solving, pow(val2, val1));
-                }
-                // Pop the operator
-                pop(&op);
+                perform_correct_operation(&solving, &op);
             }
             // Pop opening bracket from operator stack
             pop(&op);
         
         // For operator
         } else {
-            // Convert string to integer and push to solving stack
-            if (num_string[0] != '\0') {
-                int num = atoi(num_string);
-                push_int(&solving, num);
-            }
-            // Empties string
-            memset(num_string,0,strlen(num_string));
-
+            push_int_string(&solving, num_string);
             // Runs until operator stack is empty or a higher precedence operator is encountered
             while (!isEmpty(&op) && prec(c) <= prec(peek(&op))) {
-                printf("peek2,%d\n", peek_int(&solving));
-
-                // Stores and pops operands
-                int val1 = pop_int(&solving);
-                int val2 = pop_int(&solving);
-                printf("%d%c%d\n", val2, peek(&op), val1);
-
-                // Performs operation based on detected operator and pushes answer to solving stack
-                if (peek(&op) == '+') {
-                    push_int(&solving, val2 + val1);
-                } else if (peek(&op) == '-') {
-                    push_int(&solving, val2 - val1);
-                } else if (peek(&op) == '*') {
-                    push_int(&solving, val2 * val1);
-                } else if (peek(&op) == '/') {
-                    push_int(&solving, val2 / val1);
-                } else if (peek(&op) == '^') {
-                push_int(&solving, pow(val2, val1));
-                }
-                // Pop the operator
-                pop(&op);
+                perform_correct_operation(&solving, &op);
             }
             push(&op, c);
         }
     }
 
-    // Convert string to integer and push to solving stack
-    if (num_string[0] != '\0') {
-        int num = atoi(num_string);
-        push_int(&solving, num);
-    }
-    // Empties string
-    memset(num_string,0,strlen(num_string));
-
+    push_int_string(&solving, num_string);
     // Runs until operator stack is empty
     while (!isEmpty(&op)) {
-        printf("peek3,%d\n", peek_int(&solving));
-
-        // Stores and pops operands
-        int val1 = pop_int(&solving);
-        int val2 = pop_int(&solving);
-        printf("%d%c%d\n", val2, peek(&op), val1);
-
-        // Performs operation based on detected operator and pushes answer to solving stack
-        if (peek(&op) == '+') {
-            push_int(&solving, val2 + val1);
-        } else if (peek(&op) == '-') {
-            push_int(&solving, val2 - val1);
-        } else if (peek(&op) == '*') {
-            push_int(&solving, val2 * val1);
-        } else if (peek(&op) == '/') {
-            push_int(&solving, val2 / val1);
-        } else if (peek(&op) == '^') {
-        push_int(&solving, pow(val2, val1));
-        }
-        // Pop the operator
-        pop(&op);
+        perform_correct_operation(&solving, &op);
     }
 
     while (!isEmpty_int(&solving)) {
