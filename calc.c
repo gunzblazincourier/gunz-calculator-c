@@ -125,32 +125,22 @@ int main() {
     printf("Expression: ");
     scanf("%s", expression);
 
-    // printf("%d\n", strlen(expression));
     int len = strlen(expression);
     char num_string[10];
     for (int i = 0; i < len; i++) {
         char c = expression[i];
-        // printf("%c\n", c);
         if (isalnum(c)) {
             addChar(num_string, c);
         } else if (c == '(') {
-            // int num = atoi(num_string);
-            // printf("%d\n", num);
-            // push_int(&solving, num);
-            // memset(num_string,0,strlen(num_string));
             push(&op, c);
         } else if (c == ')') {
-            // printf("char1,%s\n", num_string);
             if (num_string[0] != '\0') {
                 int num = atoi(num_string);
-                // printf("%d\n", num);
                 push_int(&solving, num);
             }
             memset(num_string,0,strlen(num_string));
 
             while (!isEmpty(&op) && peek(&op) != '(') {
-                // push(&solving, peek(&op));
-                // pop(&op);
                 printf("peek1,%d\n", peek_int(&solving));
                 int val1 = pop_int(&solving);
                 int val2 = pop_int(&solving);
@@ -171,16 +161,12 @@ int main() {
             }
             pop(&op);
         } else {
-            // printf("char2,%s\n", num_string);
             if (num_string[0] != '\0') {
                 int num = atoi(num_string);
-                // printf("%d\n", num);
                 push_int(&solving, num);
             }
             memset(num_string,0,strlen(num_string));
             while (!isEmpty(&op) && prec(c) <= prec(peek(&op))) {
-                // push(&solving, peek(&op));
-                // pop(&op);
                 printf("peek2,%d\n", peek_int(&solving));
                 int val1 = pop_int(&solving);
                 int val2 = pop_int(&solving);
@@ -203,16 +189,12 @@ int main() {
         }
     }
 
-    // printf("char3,%s\n", num_string);
     if (num_string[0] != '\0') {
         int num = atoi(num_string);
-        // printf("%d\n", num);
         push_int(&solving, num);
     }
     memset(num_string,0,strlen(num_string));
     while (!isEmpty(&op)) {
-        // push(&solving, peek(&op));
-        // pop(&op);
         printf("peek3,%d\n", peek_int(&solving));
         int val1 = pop_int(&solving);
         int val2 = pop_int(&solving);
