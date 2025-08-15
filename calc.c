@@ -23,7 +23,7 @@ int prec(char c) {
 void addChar(char *s, char c) {
     while (*s++);
     *(s - 1) = c;
-    *s = '\n';
+    *s = '\0';
 }
 
 // Push converted numeric string in integer stack and empty string
@@ -69,14 +69,16 @@ int main() {
     // scanf("%s", expression);
     fgets(expression, sizeof(expression), stdin);
 
-    // End program is input is empty
-    if (expression[0] == '\n') {
-        printf("No input\n");
-        return -1;
-    }
-
     int len = strlen(expression);       // Length of expression
     char num_string[10];                // String that holds numeric characters which are converted to numbers
+
+    // // End program is input is empty
+    // if (expression[0] != '\n' && (isalnum(expression[len-2]) || expression[len-2] == ')')) {
+    //     printf("Work\n");
+    // } else {
+    //     printf("Syntax error\n");
+    //     return -1;
+    // }
 
     // Reads through expression character-by-character
     for (int i = 0; i < len-1; i++) {
