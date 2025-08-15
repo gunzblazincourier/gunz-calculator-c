@@ -23,12 +23,12 @@ int prec(char c) {
 void addChar(char *s, char c) {
     while (*s++);
     *(s - 1) = c;
-    *s = '\0';
+    *s = '\n';
 }
 
 // Push converted numeric string in integer stack and empty string
 void push_int_string(Stack_int *stack, char *s) {
-    if (s[0] != '\0') {
+    if (s[0] != '\n') {
         push_int(stack, atoi(s));
     }
     memset(s, 0, strlen(s));
@@ -66,6 +66,7 @@ int main() {
     // Input expression is taken and stored
     char expression[MAX_SIZE];
     printf("Expression: ");
+    // scanf("%s", expression);
     fgets(expression, sizeof(expression), stdin);
 
     // End program is input is empty
@@ -78,7 +79,7 @@ int main() {
     char num_string[10];                // String that holds numeric characters which are converted to numbers
 
     // Reads through expression character-by-character
-    for (int i = 0; i < len; i++) {
+    for (int i = 0; i < len-1; i++) {
         // Stores character
         char c = expression[i];
 
