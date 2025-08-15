@@ -72,13 +72,11 @@ int main() {
     int len = strlen(expression);       // Length of expression
     char num_string[10];                // String that holds numeric characters which are converted to numbers
 
-    // // End program is input is empty
-    // if (expression[0] != '\n' && (isalnum(expression[len-2]) || expression[len-2] == ')')) {
-    //     printf("Work\n");
-    // } else {
-    //     printf("Syntax error\n");
-    //     return -1;
-    // }
+    // End program is input is empty
+    if (expression[0] == '\n' || !isalnum(expression[len-2])) {
+        printf("Syntax error\n");
+        return -1;
+    }
 
     // Reads through expression character-by-character
     for (int i = 0; i < len-1; i++) {
