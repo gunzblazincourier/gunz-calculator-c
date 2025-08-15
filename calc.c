@@ -66,7 +66,13 @@ int main() {
     // Input expression is taken and stored
     char expression[MAX_SIZE];
     printf("Expression: ");
-    scanf("%s", expression);
+    fgets(expression, sizeof(expression), stdin);
+
+    // End program is input is empty
+    if (expression[0] == '\n') {
+        printf("No input\n");
+        return -1;
+    }
 
     int len = strlen(expression);       // Length of expression
     char num_string[10];                // String that holds numeric characters which are converted to numbers
