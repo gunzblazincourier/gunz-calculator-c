@@ -28,7 +28,7 @@ void addChar(char *s, char c) {
 
 // Push converted numeric string in integer stack and empty string
 void push_int_string(Stack_int *stack, char *s) {
-    if (s[0] != '\n') {
+    if (s[0] != '\0') {
         push_int(stack, atoi(s));
     }
     memset(s, 0, strlen(s));
@@ -70,13 +70,16 @@ int main() {
     fgets(expression, sizeof(expression), stdin);
 
     int len = strlen(expression);       // Length of expression
-    char num_string[10];                // String that holds numeric characters which are converted to numbers
+    char num_string[10];                // String that holds numeric characters
 
-    // End program is input is empty
-    if (expression[0] == '\n' || !isalnum(expression[len-2])) {
-        printf("Syntax error\n");
-        return -1;
-    }
+    // // 0 means there are equal number of opening and closing brackets
+    // int bracket_balance = 0;
+
+    // // End program is input is empty
+    // if (expression[0] == '\n' || (!isalnum(expression[len-2]) && expression[len-2] != ')')) {
+    //     printf("Syntax error\n");
+    //     return -1;
+    // }
 
     // Reads through expression character-by-character
     for (int i = 0; i < len-1; i++) {
@@ -89,10 +92,14 @@ int main() {
         
         // For opening bracket, push it to operator stack
         } else if (c == '(') {
+            // printf("1\n");
+            // bracket_balance++;
             push_char(&op, c);
         
         // For closing bracket
         } else if (c == ')') {
+            // printf("2\n");
+            // bracket_balance--;
             push_int_string(&solving, num_string);
             // Runs until operator stack is empty or opening bracket is encountered
             while (!is_empty_char(&op) && peek_char(&op) != '(') {
@@ -112,6 +119,11 @@ int main() {
         }
     }
 
+    // if (bracket_balance != 0) {
+    //     printf("Syntax error\n");
+    //     return -1;
+    // }
+
     push_int_string(&solving, num_string);
     // Runs until operator stack is empty
     while (!is_empty_char(&op)) {
@@ -119,7 +131,7 @@ int main() {
     }
 
     while (!is_empty_int(&solving)) {
-        printf("%d\n", peek_int(&solving));
+        printf("ans%d\n", peek_int(&solving));
         pop_int(&solving);
     }
 
