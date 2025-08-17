@@ -72,14 +72,14 @@ int main() {
     int len = strlen(expression);       // Length of expression
     char num_string[10];                // String that holds numeric characters
 
-    // // 0 means there are equal number of opening and closing brackets
-    // int bracket_balance = 0;
+    // 0 means there are equal number of opening and closing brackets
+    int bracket_balance = 0;
 
-    // // End program is input is empty
-    // if (expression[0] == '\n' || (!isalnum(expression[len-2]) && expression[len-2] != ')')) {
-    //     printf("Syntax error\n");
-    //     return -1;
-    // }
+    // End program is input is empty
+    if (expression[0] == '\n' || (!isalnum(expression[len-2]) && expression[len-2] != ')')) {
+        printf("Syntax error\n");
+        return -1;
+    }
 
     // Reads through expression character-by-character
     for (int i = 0; i < len-1; i++) {
@@ -93,13 +93,13 @@ int main() {
         // For opening bracket, push it to operator stack
         } else if (c == '(') {
             // printf("1\n");
-            // bracket_balance++;
+            bracket_balance++;
             push_char(&op, c);
         
         // For closing bracket
         } else if (c == ')') {
             // printf("2\n");
-            // bracket_balance--;
+            bracket_balance--;
             push_int_string(&solving, num_string);
             // Runs until operator stack is empty or opening bracket is encountered
             while (!is_empty_char(&op) && peek_char(&op) != '(') {
@@ -109,7 +109,7 @@ int main() {
             pop_char(&op);
         
         // For operator
-        } else {
+        } else if ((c == '^') || (c == '/') || (c == '*') || (c == '+') || (c == '-')){
             push_int_string(&solving, num_string);
             // Runs until operator stack is empty or a higher precedence operator is encountered
             while (!is_empty_char(&op) && prec(c) <= prec(peek_char(&op))) {
@@ -119,10 +119,10 @@ int main() {
         }
     }
 
-    // if (bracket_balance != 0) {
-    //     printf("Syntax error\n");
-    //     return -1;
-    // }
+    if (bracket_balance != 0) {
+        printf("Syntax error\n");
+        return -1;
+    }
 
     push_int_string(&solving, num_string);
     // Runs until operator stack is empty
